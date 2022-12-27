@@ -1,3 +1,4 @@
+import json
 import FQParser
 from Concordance import Concordance
 
@@ -12,8 +13,13 @@ def main():
     with open(concordance_fname, 'w') as f:
         f.write(ccd.show())
         
-    print(f'Wrote concordance to {concordance_fname}')
+    print(f'Wrote concordance text to {concordance_fname}')
     
+    concordance_fname = 'concordance.json'
+    with open(concordance_fname, 'w') as f:
+        json.dump(ccd.toJSON(), f)
+        
+    print(f'Wrote concordance json to {concordance_fname}')
 
 if __name__ == "__main__":
     main()
