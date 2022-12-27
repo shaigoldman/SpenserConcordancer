@@ -1,6 +1,6 @@
 import json
-import FQParser
-from Concordance import Concordance
+import src.FQParser as FQParser
+from src.Concordance import Concordance
 
 
 def main():
@@ -9,13 +9,13 @@ def main():
     for book in books:
         book.concord_book(ccd)
     
-    concordance_fname = 'concordance.txt'
+    concordance_fname = 'ret/concordance.txt'
     with open(concordance_fname, 'w') as f:
         f.write(ccd.show())
         
     print(f'Wrote concordance text to {concordance_fname}')
     
-    concordance_fname = 'concordance.json'
+    concordance_fname = 'ret/concordance.json'
     with open(concordance_fname, 'w') as f:
         json.dump(ccd.toJSON(), f)
         

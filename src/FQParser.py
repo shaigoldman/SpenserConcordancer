@@ -1,5 +1,5 @@
-import Util
-from Concordance import Concordance
+import src.Util as Util
+from src.Concordance import Concordance
 
 ARG_ID = 'argument'
 
