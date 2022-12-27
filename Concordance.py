@@ -11,8 +11,8 @@ class ConcordanceEntry:
         return (f'Book {self.book}, {self.canto}, '
                 f'{self.stanza}.{self.line_num}: "{self.whole_line}";\n')
     
-    def toJSON(self, name: str):
-        return {"word": name, "book": self.book, "canto": self.canto, "stanza": self.stanza, 
+    def toJSON(self):
+        return {"book": self.book, "canto": self.canto, "stanza": self.stanza, 
                 "line_num": self.line_num, "whole_line": self.whole_line}
 
 class Concordance:
@@ -36,6 +36,8 @@ class Concordance:
         return ret
     
     def toJSON(self):
-        return [[entry.toJSON(word) for entry in self.data[word]] for word in sorted(self.data.keys())]
+        return [{"word": word, 
+                 "occurences": [entry.toJSON() for entry in self.data[word]]}
+                for word in sorted(self.data.keys())]
             
 
