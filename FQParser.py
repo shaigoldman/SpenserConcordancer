@@ -1,4 +1,4 @@
-import util
+import Util
 from Concordance import Concordance
 
 ARG_ID = 'argument'
@@ -14,8 +14,8 @@ class Line:
         self.valid = self.line != ''
         if fix_first:
             self.fix_first_word()
-        words = util.concat([util.fix_th_prefix(w.lower()) for w in util.filter_valid_str(self.line.split(' '))])
-        self.words = util.filter_valid_str([util.filter_alpha(w) for w in words])
+        words = Util.concat([Util.fix_th_prefix(w.lower()) for w in Util.filter_valid_str(self.line.split(' '))])
+        self.words = Util.filter_valid_str([Util.filter_alpha(w) for w in words])
     
     # the first word of a stanza can have a bug where the first letter is cut off
     def fix_first_word(self):
@@ -46,9 +46,9 @@ class Stanza:
         self.book = book
         self.canto = canto
         self.id = id
-        self.lines = util.filter_valid_o(
+        self.lines = Util.filter_valid_o(
             [Line(self.book, self.canto, self.id, i+1, txt, self.id == 1)
-             for i, txt in enumerate(util.filter_valid_str(raw.split('\n')))])
+             for i, txt in enumerate(Util.filter_valid_str(raw.split('\n')))])
     
     def concord_stanza(self, ccd: Concordance):
         for line in self.lines:
@@ -68,7 +68,7 @@ class Canto:
         self.id = id.strip()
         self.argument = Stanza(self.book, self.id, ARG_ID, argument)
         self.stanzas = [Stanza(self.book, self.id, i+1, s)
-                        for i, s in enumerate(util.filter_valid_str(stanzas.split('\n\n')))]
+                        for i, s in enumerate(Util.filter_valid_str(stanzas.split('\n\n')))]
     
     def concord_canto(self, ccd: Concordance):
         self.argument.concord_stanza(ccd)
