@@ -33,7 +33,8 @@ class ConcordanceEntry:
         self.whole_line = whole_line
     
     def show(self):
-        return f'Book {self.book}, {self.canto}, {self.stanza}.{self.line_num}: "{self.whole_line}".\n'
+        return (f'Book {self.book}, {self.canto}, '
+                f'{self.stanza}.{self.line_num}: "{self.whole_line}".\n')
 
 class Concordance:
     def __init__(self):
@@ -50,7 +51,7 @@ class Concordance:
     def show(self):
         ret = ""
         for word in sorted(self.data.keys()):
-            ret += f'"{word.title()}":\n'
+            ret += f'"{word.title()}": {len(self.data[word])} total occurances.\n'
             for entry in self.data[word]:
                 ret += '\t' + entry.show()
         return ret
@@ -162,7 +163,7 @@ class Book:
 
 
 def read_book_file(book_num: int):
-    fname = f'queene{book_num}.txt'
+    fname = f'resources/queene{book_num}.txt'
     with open(fname, "r", encoding='latin-1') as f:
         text = f.read()
     print(f'Loaded {fname}')
