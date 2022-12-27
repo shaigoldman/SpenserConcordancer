@@ -94,10 +94,9 @@ class Book:
         splitslen = len(splits)
             
         proem = Canto(self.id, "Proem", "", next(splitsgen))
-        return [proem] + [
-            Canto(self.id, next(splitsgen), next(splitsgen), next(splitsgen)) 
-            for _ in range(int(splitslen/3))
-        ]
+        cantos = [Canto(self.id, next(splitsgen), next(splitsgen), next(splitsgen)) 
+                  for _ in range(int(splitslen/3))]
+        return [proem] + cantos
     
     def concord_book(self, ccd: Concordance):
         for canto in self.cantos:
