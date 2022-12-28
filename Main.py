@@ -1,7 +1,9 @@
 import json
 import src.FQParser as FQParser
 from src.Concordance import Concordance
+from src.Paginator import Paginate
 
+PAGE_SIZE = 500
 
 def main():
     ccd = Concordance()
@@ -15,9 +17,17 @@ def main():
         
     print(f'Wrote concordance text to {concordance_fname}')
     
-    concordance_fname = 'ret/concordance.json'
-    with open(concordance_fname, 'w') as f:
-        json.dump(ccd.toEntryList(), f)
+    entrylist = ccd.toEntryList()
+    pages_paths = ['ret/concordance', 
+                   '../spenser-concordance-app/src/resources/concordance'
+                   ]
+    pagelist = Paginate(entrylist, PAGE_SIZE)
+    for i, page in enumerate(pagelist):
+        for path in pages_paths:
+            fname = f'{path}/page{i}.json'
+            print(f'Wrote page {i} text to {fname}')
+            with open(fname, 'w') as f:
+                json.dump(page.entry_list, f)
         
     print(f'Wrote concordance json to {concordance_fname}')
 
