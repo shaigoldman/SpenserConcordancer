@@ -31,7 +31,7 @@ class Page():
             self.new_words.append(entry['word'])
         
     def add_entry(self, entry: Entry) -> Entry:
-        if len(entry['occurrences']) < self.open:
+        if len(entry['occurrences']) <= self.open:
             self.__add_entry(entry)
             return None
         else:
