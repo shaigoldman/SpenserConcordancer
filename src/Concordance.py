@@ -7,13 +7,15 @@ class ConcordanceEntry:
         self.line_num = line_num
         self.whole_line = whole_line
     
-    def show(self):
+    def location(self):
         return (f'Book {self.book}, {self.canto}, '
-                f'{self.stanza}.{self.line_num}: "{self.whole_line}";\n')
+                f'{self.stanza}.{self.line_num}')
+    
+    def show(self):
+        return (f'{self.location()}: "{self.whole_line}";\n')
     
     def toJSON(self):
-        return {"book": self.book, "canto": self.canto, "stanza": self.stanza, 
-                "line_num": self.line_num, "whole_line": self.whole_line}
+        return {"location": self.location(), "whole_line": self.whole_line}
 
 class Concordance:
     def __init__(self):
@@ -37,7 +39,9 @@ class Concordance:
     
     def toJSON(self):
         return [{"word": word, 
-                 "occurences": [entry.toJSON() for entry in self.data[word]]}
-                for word in sorted(self.data.keys())]
+                 "total": len(occurences),
+                 "occurences": occurences}
+                for word in sorted(self.data.keys())
+                if (occurences := [entry.toJSON() for entry in self.data[word]])]
             
 
