@@ -17,7 +17,7 @@ def main():
     
     concordance_fname = 'ret/concordance.json'
     with open(concordance_fname, 'w') as f:
-        json.dump(ccd.toJSON(), f)
+        json.dump(ccd.toEntryList(), f)
         
     print(f'Wrote concordance json to {concordance_fname}')
 
