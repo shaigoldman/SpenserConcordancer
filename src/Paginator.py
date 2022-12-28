@@ -21,11 +21,14 @@ class Page():
     
     def __init__(self, size: int):
         self.entry_list: List[Entry] = []
+        self.new_words: List[str] = []
         self.open = size
         
     def __add_entry(self, entry: Entry):
         self.entry_list.append(entry)
         self.open -= len(entry['occurrences'])
+        if entry['split_num'] <= 0:
+            self.new_words.append(entry['word'])
         
     def add_entry(self, entry: Entry) -> Entry:
         if len(entry['occurrences']) < self.open:
