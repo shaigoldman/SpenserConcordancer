@@ -14,17 +14,16 @@ def main():
     concordance_fname = 'ret/concordance.txt'
     with open(concordance_fname, 'w') as f:
         f.write(ccd.show())
-        
     print(f'Wrote concordance text to {concordance_fname}')
     
     entrylist = ccd.toEntryList()
     pagelist = Paginate(entrylist, PAGE_SIZE)
-    
     pages_paths = ['ret/concordance', 
                    '../spenser-concordance-app/src/resources/concordance'
                    ]
     
-    index = {}
+    index = {'metadata': {}, 'words': {}, 'page_starts': []}
+    num_entries = 0
     
     for i, page in enumerate(pagelist):
         for path in pages_paths:
@@ -33,12 +32,18 @@ def main():
             with open(fname, 'w') as f:
                 json.dump(page.entry_list, f)
         for word in page.new_words:
-            index[word] = i
+            index['words'][word] = i
+        index['page_starts'].append(num_entries)
+        num_entries += len(page.entry_list)
+    index['metadata']['page_size'] = PAGE_SIZE
+    index['metadata']['num_pages'] = len(pagelist)
+    
     for path in pages_paths:
         fname = f'{path}/index.json'
         print(f'Wrote to {fname}')
         with open(fname, 'w') as f:
             json.dump(index, f)
+    
 
 if __name__ == "__main__":
     main()
